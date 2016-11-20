@@ -1,0 +1,20 @@
+{
+  "name": "CSCI3230 project",
+  "version": "1.0.0",
+  "description": "An internet shopping service",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "contributors": {
+	"name" : "Timothy MacDougall",
+	"name" : "Muhammad Ahmad"
+  },	
+  "license": "0BSD",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongoose": "^4.5.1",
+    "pug": "^2.0.0-beta3"
+  }
+}
