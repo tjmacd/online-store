@@ -10,6 +10,8 @@ Online shopping application
   - description
   - price
   - keywords
+  - image
+  - comments?
   
 ### All pages
 - Logo
