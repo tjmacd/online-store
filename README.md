@@ -34,13 +34,12 @@ Online shopping application
   - must be logged in to leave review
   
 ### Log in page
-- Asks for username and password
+- Asks for username and password **(done)**
 - on submit may redirect to different pages (don't know how hard this will be)
 
 ### Create new accout page
-- Asks for username (checks availabity)
-- Asks for password (2nd box to confirm password)
-- Asks for address information
+- Asks for username (checks availabity) **(done)**
+- Asks for password (2nd box to confirm password) **(done)**
 
 ### shopping cart page
 - must be logged in to view
