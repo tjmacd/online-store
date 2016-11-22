@@ -20,16 +20,16 @@ html
 		if (errorMessage)
 			div= errorMessage
 		h3 Log In
-		form(action="/processLogin",
+		form(action="/login",
 		  method="post",
 		  class="form-verical")
 
-			label(class="control-label col-md-1",for="username") Username:
+			label(class="control-label col-md-1",for="email") E-mail:
 			div(class="col-md-4 form-group")
 				input(type="text",
-				   id="username",
-				   name="username",
-				   placeholder="Username",
+				   id="email",
+				   name="email",
+				   placeholder="E-mail Address",
 				   class="form-control")
 
 			div(class="clearfix hidden-md-up")

@@ -23,15 +23,20 @@ app.use(session({
 mongoose.connect('localhost:27017/project');
 var Schema = mongoose.Schema;
 var userSchema = new Schema({
-	username: {type: String, unique: true, index: true},
+	email: {type: String, unique: true, index: true},
 	hashedPassword: String,
-	email: String
+	firstname: String,
+	lastname: String
 }, {collection: 'users'});
 var User = mongoose.model('user', userSchema);
 
 // view engine
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
+
+// Helper functions
+
+
 
 // TODO: main page
 app.get('/', function(request, response) {
@@ -46,14 +51,15 @@ app.get('/login', function(request, response) {
     response.render('login');
 })
 
-app.post('/processLogin', function(request, response) {
-  	var username = request.body.username;
+app.post('/login', function(request, response) {
+  	var email = request.body.email;
 	var password = request.body.password;
 	
-	User.find({username: username}).then(function(results){
+	User.find({email: email}).then(function(results){
 		if((results.length > 0) && (bcrypt.compareSync(password, results[0].hashedPassword))) {
 			var session = request.session;
-			session.username = username;
+			session.username = email;
+			response.redirect('/');
 		} else {
 			response.render('login', {errorMessage: 'Username or password incorrect'});
 		}
@@ -61,7 +67,45 @@ app.post('/processLogin', function(request, response) {
 })
 
 // TODO: Register page
+app.get('/register', function(request, response) {
+	response.render('register');
+})
 
+app.post('/register', function(request, response) {
+	var firstname = request.body.firstname;
+	var lastname = request.body.lastname;
+	var email = request.body.email;
+	var password = request.body.password;
+	var confirmPassword = request.body.confirmPassword;
+	
+	if(firstname == "" || lastname == "" || email == "" || password == "" || confirmPassword == ""){
+		response.render('register', {errorMessage: 'All fields must be filled!'});
+	} else if (password != confirmPassword) {
+		response.render('register', {errorMessage: 'Passwords must match!'});
+	} else {
+		User.find({email: email}).then(function(results) {
+			if(results.length > 0){
+				response.render('register', {errorMessage: 'An account with this email address already exists.'});
+			} else {
+				var hash = bcrypt.hashSync(password);
+				var newUser = new User({email: email,
+										hashedPassword: hash,
+										firstname: firstname,
+										lastname: lastname});
+				console.log(newUser);
+				newUser.save(function(error) {
+					if(error) {
+						console.log(error);
+						response.render('register', {errorMessage: 'Unable to register'});
+					} else {
+						response.render('registerSuccess', {firstname: firstname});
+					}
+				})
+			}
+		})
+	}
+	
+})
 
 // TODO: Shopping cart page
 
