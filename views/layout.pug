@@ -13,7 +13,7 @@ html
 			crossorigin="anonymous")
 		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
 		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
-		link(rel="stylesheet", href="main.css")
+		link(rel="stylesheet", href="style/main.css")
 
 	body
 		nav(class="navbar navbar-inverse")
@@ -42,23 +42,30 @@ html
 					ul(class="nav navbar-nav")
 						li(class= homeActive)
 							a(href="/") Home
-						li
+						li(class= dealsActive)
 							a(href="/deals") Deals
-						li
+						li(class= storesActive)
 							a(href="/stores") Stores
-						li
+						li(class= aboutActive)
 							a(href="/about") About us
 					ul(class="nav navbar-nav navbar-right")
 						li
 							a(href="/account")
 								span(class="glyphicon glyphicon-user")
-								span  Your Account
+								if (username && (username !== ''))
+									span  #{username}'s Account
+								else
+									span  Your Account
 						li
 							a(href="/cart")
 								span(class="glyphicon glyphicon-shopping-cart")
 								span  Cart
-						li
-							a(class="btn btn-primary", href="/login") Log In
+						if (username && (username !== ''))
+							li
+								a(href="/logout") Log Out
+						else
+							li
+								a(href="/login") Log In
 
 		div(class="container")
 			block content

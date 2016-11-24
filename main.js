@@ -35,12 +35,18 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
 
 // Helper functions
-
-
+function getUsername(request) {
+	var username = '';
+	var session = request.session;
+	if (session.username) {
+		username = session.username;
+	}
+	return username;
+}
 
 // TODO: main page
 app.get('/', function(request, response) {
-	response.render('layout');
+	response.render('layout', {title: 'JunkMart', username: getUsername(request)});
 })
 
 // TODO: search
@@ -52,7 +58,7 @@ app.post('/search', function(request, response) {
 // TODO: Product page
 
 
-// TODO: Login page
+// Login
 app.get('/login', function(request, response) {
     response.render('login', {title: 'Log In'});
 })
@@ -64,12 +70,18 @@ app.post('/login', function(request, response) {
 	User.find({email: email}).then(function(results){
 		if((results.length > 0) && (bcrypt.compareSync(password, results[0].hashedPassword))) {
 			var session = request.session;
-			session.username = email;
+			session.username = results[0].firstname;
 			response.redirect('/');
 		} else {
 			response.render('login', {errorMessage: 'Username or password incorrect'});
 		}
 	})
+})
+
+// Logout
+app.get('/logout', function(request, response) {
+	request.session.username = '';
+	response.redirect('/');
 })
 
 // TODO: Register page
