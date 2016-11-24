@@ -1,24 +1,5 @@
-doctype
-html
-	head
-		title="Account Creation"
-		
-		link(rel="stylesheet",
-		     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", 
-		     integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", 
-		     crossorigin="anonymous")
-
-		link(rel="stylesheet",
-		     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css",
-		     integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r",
-		     crossorigin="anonymous")
-
-		link(rel="stylesheet",
-		     href="/style/main.css")
-		script(type="text/javascript", src="scripts/formValidate.js")
-
-	body
-	
+extends layout
+block content
 	if (errorMessage)
 		div= errorMessage
 	h3 Register
@@ -26,7 +7,7 @@ html
 			action="/register",
 			onsubmit="return validateForm()",
 		  method="post",
-		  class="form-horizontal")
+		  class="form-vertical")
 
 		label(class="control-label col-md-1",for="firstname") First name:
 		div(class="col-md-4 form-group")

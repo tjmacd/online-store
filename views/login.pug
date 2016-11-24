@@ -1,48 +1,35 @@
-doctype
-html
-	head
-		title="Log in"
-		
-		link(rel="stylesheet",
-		     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", 
-		     integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", 
-		     crossorigin="anonymous")
-
-		link(rel="stylesheet",
-		     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css",
-		     integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r",
-		     crossorigin="anonymous")
-
-		link(rel="stylesheet",
-		     href="/style/main.css")
-
-	body
-		if (errorMessage)
-			div= errorMessage
-		h3 Log In
-		form(action="/login",
+extends layout
+block content
+	if (errorMessage)
+		div= errorMessage
+	h3 Log In
+	form(action="/login",
 		  method="post",
 		  class="form-verical")
-
-			label(class="control-label col-md-1",for="email") E-mail:
-			div(class="col-md-4 form-group")
-				input(type="text",
+		label(class="control-label col-md-1",for="email") E-mail:
+		div(class="col-md-4 form-group")
+			input(type="text",
 				   id="email",
 				   name="email",
 				   placeholder="E-mail Address",
 				   class="form-control")
 
-			div(class="clearfix hidden-md-up")
+		div(class="clearfix hidden-md-up")
 		
-			label(class="control-label col-md-1",for="password") Password:
-			div(class="col-md-4 form-group")
-				input(type="password",
+		label(class="control-label col-md-1",for="password") Password:
+		div(class="col-md-4 form-group")
+			input(type="password",
 				   id="password",
 				   name="password",
 				   placeholder="Password",
 				   class="form-control")
 
-			div(class="clearfix hidden-md-up")
+		div(class="clearfix hidden-md-up")
 
-			div(class="col-md-offset-1 col-md-1")
-				button(type="submit",class="btn btn-primary") Log In
+		div(class="col-md-offset-1 col-md-1")
+			button(type="submit",class="btn btn-primary") Log In
+
+		div(class="clearfix hidden-md-up")
+
+		div(class="container") Don't have an account? 
+			a(href="/register") Register now.

@@ -48,7 +48,7 @@ app.get('/', function(request, response) {
 
 // TODO: Login page
 app.get('/login', function(request, response) {
-    response.render('login');
+    response.render('login', {title: 'Log In'});
 })
 
 app.post('/login', function(request, response) {
@@ -68,7 +68,7 @@ app.post('/login', function(request, response) {
 
 // TODO: Register page
 app.get('/register', function(request, response) {
-	response.render('register');
+	response.render('register', {title: 'Account Creation'});
 })
 
 app.post('/register', function(request, response) {

@@ -3,24 +3,62 @@ html
 	head
 		title= title
 		link(rel="stylesheet",
-		     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", 
-		     integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", 
-		     crossorigin="anonymous")
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", 
+			integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", 
+			crossorigin="anonymous")
 
 		link(rel="stylesheet",
-		     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css",
-		     integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r",
-		     crossorigin="anonymous")
-							
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css",
+			integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r",
+			crossorigin="anonymous")
+		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+		link(rel="stylesheet", href="main.css")
+
 	body
-		div(class="content")= message
-		form(method="post",class="form-vertical")
-			label(class="control-label col-sm-2",for="username") Username:
-			div(class="col-sm-8 form-group")
-				input(type="text",
-					id="username",
-					name="username",
-					placeholder="Username",
-					class="form-control")
-			div(class="col-sm-offset-2 col-sm-2")
-				button(type="submit",class="btn btn-primary") Check
+		nav(class="navbar navbar-inverse")
+			div(class="container-fluid")
+				div(class="navbar-header")
+					button(type="button", class="navbar-toggle", data-toggle="collapse", data-target="#myNavbar")
+						span(class="icon-bar")
+						span(class="icon-bar")
+						span(class="icon-bar")     
+
+					a(class="navbar-brand", href="/") JunkMart
+				form(class="navbar-form col-md-6", role="search")
+					div(class="input-group")
+						input(type="text", 
+								class="form-control", 
+								placeholder="Search", 
+								id="query")
+						div(class="input-group-btn")
+							button(class="btn btn-default",
+									type="submit")
+								i(class="glyphicon glyphicon-search")
+
+				
+
+				div(class="collapse navbar-collapse", id="myNavbar")
+					ul(class="nav navbar-nav")
+						li(class= homeActive)
+							a(href="/") Home
+						li
+							a(href="/deals") Deals
+						li
+							a(href="/stores") Stores
+						li
+							a(href="/about") About us
+					ul(class="nav navbar-nav navbar-right")
+						li
+							a(href="/account")
+								span(class="glyphicon glyphicon-user")
+								span  Your Account
+						li
+							a(href="/cart")
+								span(class="glyphicon glyphicon-shopping-cart")
+								span  Cart
+						li
+							a(class="btn btn-primary", href="/login") Log In
+
+		div(class="container")
+			block content
