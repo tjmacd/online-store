@@ -43,6 +43,12 @@ app.get('/', function(request, response) {
 	response.render('layout');
 })
 
+// TODO: search
+app.post('/search', function(request, response) {
+	
+})
+
+
 // TODO: Product page
 
 
