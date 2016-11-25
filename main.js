@@ -40,6 +40,15 @@ var userSchema = new Schema({
 }, {collection: 'users'});
 var User = mongoose.model('user', userSchema);
 
+var productSchema = new Schema({
+  sid: {type: String, unique: true, index: true},
+  name: String,
+  description: String,
+  image: String,
+  price: float
+}, {collection: 'products'});
+var Product = mongoose.model('user', productSchema);
+
 // view engine
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
