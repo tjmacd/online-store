@@ -14,9 +14,9 @@ Online shopping application
   - comments?
   
 ### All pages
-- Logo
-- Navigation bar
-- Login/Logout button
+- Logo **(done)**
+- Navigation bar **(done)**
+- Login/Logout button **(done)**
 - Search bar
 - Bottom banner thingy with legal and social media stuff
  
@@ -37,7 +37,7 @@ Online shopping application
 - Asks for username and password **(done)**
 - on submit may redirect to different pages (don't know how hard this will be)
 
-### Create new accout page
+### Create new account page
 - Asks for username (checks availabity) **(done)**
 - Asks for password (2nd box to confirm password) **(done)**
 

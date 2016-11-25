@@ -22,11 +22,21 @@ app.use(session({
 
 mongoose.connect('localhost:27017/project');
 var Schema = mongoose.Schema;
+var addressSchema = new Schema({
+	name: String,
+	line1: String,
+	line2: String,
+	city: String,
+	province: String,
+	postcode: String,
+	country: String
+})
 var userSchema = new Schema({
 	email: {type: String, unique: true, index: true},
 	hashedPassword: String,
 	firstname: String,
-	lastname: String
+	lastname: String,
+	addresses: [addressSchema]
 }, {collection: 'users'});
 var User = mongoose.model('user', userSchema);
 
@@ -60,7 +70,7 @@ app.post('/search', function(request, response) {
 
 // Login
 app.get('/login', function(request, response) {
-    response.render('login', {title: 'Log In'});
+    response.render('login', {title: 'Log In', username: getUsername(request)});
 })
 
 app.post('/login', function(request, response) {
@@ -71,9 +81,10 @@ app.post('/login', function(request, response) {
 		if((results.length > 0) && (bcrypt.compareSync(password, results[0].hashedPassword))) {
 			var session = request.session;
 			session.username = results[0].firstname;
+			session.email = results[0].email;
 			response.redirect('/');
 		} else {
-			response.render('login', {errorMessage: 'Username or password incorrect'});
+			response.render('login', {errorMessage: 'Username or password incorrect', username: getUsername(request)});
 		}
 	})
 })
@@ -86,7 +97,7 @@ app.get('/logout', function(request, response) {
 
 // TODO: Register page
 app.get('/register', function(request, response) {
-	response.render('register', {title: 'Account Creation'});
+	response.render('register', {title: 'Account Creation', username: getUsername(request)});
 })
 
 app.post('/register', function(request, response) {
@@ -97,13 +108,13 @@ app.post('/register', function(request, response) {
 	var confirmPassword = request.body.confirmPassword;
 	
 	if(firstname == "" || lastname == "" || email == "" || password == "" || confirmPassword == ""){
-		response.render('register', {errorMessage: 'All fields must be filled!'});
+		response.render('register', {errorMessage: 'All fields must be filled!', title: 'Account Creation', username: getUsername(request)});
 	} else if (password != confirmPassword) {
-		response.render('register', {errorMessage: 'Passwords must match!'});
+		response.render('register', {errorMessage: 'Passwords must match!', title: 'Account Creation', username: getUsername(request)});
 	} else {
 		User.find({email: email}).then(function(results) {
 			if(results.length > 0){
-				response.render('register', {errorMessage: 'An account with this email address already exists.'});
+				response.render('register', {errorMessage: 'An account with this email address already exists.', title: 'Account Creation', username: getUsername(request)});
 			} else {
 				var hash = bcrypt.hashSync(password);
 				var newUser = new User({email: email,
@@ -114,15 +125,80 @@ app.post('/register', function(request, response) {
 				newUser.save(function(error) {
 					if(error) {
 						console.log(error);
-						response.render('register', {errorMessage: 'Unable to register'});
+						response.render('register', {title: 'Account Creation', errorMessage: 'Unable to register', username: getUsername(request)});
 					} else {
-						response.render('registerSuccess', {firstname: firstname});
+						response.render('registerSuccess', {title: 'Registration Successful', firstname: firstname, username: getUsername(request)});
 					}
 				})
 			}
 		})
 	}
+})
+
+// Profile
+app.get('/profile', function(request, response) {
+	var username = getUsername(request);
+	if(!username || username === ''){
+		response.redirect('/login');
+	} else {
+		
+		User.find({email: request.session.email}).then(function(results) {
+			var addresses = [];
+			if(results.length > 0) {
+				console.log(147);
+				addresses = results[0].addresses;
+				console.log(149 + ": " + addresses);
+				
+			}
+			response.render('profile', {title: 'Account Profile', username: getUsername(request), addresses: addresses});
+		});
+		
+	}
+})
+
+app.get('/newAddress', function(request, response) {
+	var username = getUsername(request);
+	if(!username || username === ''){
+		response.redirect('/login');
+	} else {
+		response.render('newAddress', {title: 'Add New Address', username: getUsername(request)});
+	}
+})
+
+app.post('/newAddress', function(request, response) {
+	var name = request.body.name;
+	var line1 = request.body.line1;
+	var line2 = request.body.line2;
+	var city = request.body.city;
+	var province = request.body.province;
+	var postcode = request.body.postcode;
+	var country = request.body.country;
 	
+	if(name == "" || line1 == "" || city == "" || postcode == "" || country == ""){
+		response.render('newAddress', {errorMessage: 'Please fill all fields marked with *', title: 'Add New Address', username: getUsername(request)});
+	} else {
+		User.find({email: request.session.email}).then(function(results) {
+			if(results.length > 0){
+				var addresses = results[0].addresses;
+				addresses.push({name: name,
+							   line1: line1,
+							   line2: line2,
+							   city: city,
+							   province: province,
+							   postcode: postcode,
+							   country: country});
+				User.update({email: request.session.email}, {addresses: addresses}, {multi: false}, function(error, numAffected) {
+					if(error || (numAffected.nModified != 1)) {
+						response.render('newAddress', {errorMessage: 'Unable to add address', title: 'Add New Address', username: getUsername(request)});
+					} else {
+						response.redirect('/profile')
+					}
+				})
+			} else {
+				response.redirect('/login');
+			}
+		})
+	}
 })
 
 // TODO: Shopping cart page

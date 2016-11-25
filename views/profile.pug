@@ -1,0 +1,13 @@
+extends layout
+block content
+	h3 Address book
+	div(id='addressBook')
+	each address in addresses
+		div(id="address")
+			strong= address.name
+			div= address.line1
+			div= address.line2
+			div #{address.city}, #{address.province} #{address.postcode}
+			div= address.country
+	
+	a(class="btn btn-primary", href="/newAddress") Add new address

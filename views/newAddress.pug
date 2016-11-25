@@ -1,0 +1,81 @@
+extends layout
+block content
+	if(errorMessage)
+		div= errorMessage
+	h3 New Address
+	form(name="addressForm",
+			action="/newAddress",
+			onsubmit="return validateForm()",
+		  method="post",
+		  class="form-vertical")
+
+		label(class="control-label col-md-1",for="name") *Name:
+		div(class="col-md-4 form-group")
+			input(type="text",
+				   id="name",
+				   name="name",
+				   class="form-control",
+					required)
+
+		div(class="clearfix hidden-sm-up")
+
+		label(class="control-label col-md-1",for="line1") *Address Line 1:
+		div(class="col-md-4 form-group")
+			input(type="text",
+				   id="line1",
+				   name="line1",
+				   class="form-control",
+					required)
+
+		div(class="clearfix hidden-sm-up")
+		
+		label(class="control-label col-md-1",for="line2") Address Line 2:
+		div(class="col-md-4 form-group")
+			input(type="text",
+				   id="line2",
+				   name="line2",
+				   class="form-control")
+
+		div(class="clearfix hidden-sm-up" )
+
+		label(class="control-label col-md-1",for="city") *City:
+		div(class="col-md-4 form-group")
+			input(type="text",
+				   id="city",
+				   name="city",
+				   class="form-control",
+					required)
+
+		div(class="clearfix hidden-sm-up")
+
+		label(class="control-label col-md-1",for="province") Province:
+		div(class="col-md-4 form-group")
+			input(type="text",
+				   id="province",
+				   name="province",
+				   class="form-control")
+
+		div(class="clearfix hidden-sm-up")
+
+		label(class="control-label col-md-1",for="postcode") *Postal code:
+		div(class="col-md-4 form-group")
+			input(type="text",
+				   id="postcode",
+				   name="postcode",
+				   class="form-control",
+					required)
+
+		div(class="clearfix hidden-sm-up")
+
+		label(class="control-label col-md-1",for="country") *Country:
+		div(class="col-md-4 form-group")
+			input(type="text",
+				   id="country",
+				   name="country",
+				   class="form-control",
+					required)
+
+		div(class="clearfix hidden-sm-up")
+
+		div(class="col-md-offset-1 col-md-1")
+			button(type="submit",class="btn btn-primary") Add
