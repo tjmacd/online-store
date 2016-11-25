@@ -56,6 +56,7 @@ function getUsername(request) {
 
 // TODO: main page
 app.get('/', function(request, response) {
+	request.session.returnTo = '/';
 	response.render('layout', {title: 'JunkMart', username: getUsername(request)});
 })
 
@@ -82,7 +83,7 @@ app.post('/login', function(request, response) {
 			var session = request.session;
 			session.username = results[0].firstname;
 			session.email = results[0].email;
-			response.redirect('/');
+			response.redirect(request.session.returnTo);
 		} else {
 			response.render('login', {errorMessage: 'Username or password incorrect', username: getUsername(request)});
 		}
@@ -139,16 +140,14 @@ app.post('/register', function(request, response) {
 app.get('/profile', function(request, response) {
 	var username = getUsername(request);
 	if(!username || username === ''){
+        request.session.returnTo = '/profile';
 		response.redirect('/login');
 	} else {
 		
 		User.find({email: request.session.email}).then(function(results) {
 			var addresses = [];
 			if(results.length > 0) {
-				console.log(147);
 				addresses = results[0].addresses;
-				console.log(149 + ": " + addresses);
-				
 			}
 			response.render('profile', {title: 'Account Profile', username: getUsername(request), addresses: addresses});
 		});
@@ -159,6 +158,7 @@ app.get('/profile', function(request, response) {
 app.get('/newAddress', function(request, response) {
 	var username = getUsername(request);
 	if(!username || username === ''){
+        request.session.redirectTo = '/newAddress';
 		response.redirect('/login');
 	} else {
 		response.render('newAddress', {title: 'Add New Address', username: getUsername(request)});

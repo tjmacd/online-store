@@ -33,9 +33,9 @@ Online shopping application
 - Review section displaying reviews and form
   - must be logged in to leave review
   
-### Log in page
+### Log in page **(done)**
 - Asks for username and password **(done)**
-- on submit may redirect to different pages (don't know how hard this will be)
+- on submit may redirect to different pages **(done)**
 
 ### Profile page
 - Displays address book - all addresses associated with user
