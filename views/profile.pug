@@ -3,11 +3,14 @@ block content
 	h3 Address book
 	div(id='addressBook')
 	each address in addresses
-		div(id="address")
+		form(id="address", method="post")
 			strong= address.name
 			div= address.line1
 			div= address.line2
 			div #{address.city}, #{address.province} #{address.postcode}
 			div= address.country
+			button(class="btn btn-default", type="submit", formaction="/editAddress") Edit
+			button(class="btn btn-default", type="submit", formaction="/deleteAddress") Delete
+			
 	
 	a(class="btn btn-primary", href="/newAddress") Add new address
