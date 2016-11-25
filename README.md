@@ -37,7 +37,13 @@ Online shopping application
 - Asks for username and password **(done)**
 - on submit may redirect to different pages (don't know how hard this will be)
 
-### Create new account page
+### Profile page
+- Displays address book - all addresses associated with user
+  - Add new address **(done)**
+  - edit address
+  - delete address
+
+### Create new account page **(done)**
 - Asks for username (checks availabity) **(done)**
 - Asks for password (2nd box to confirm password) **(done)**
 
