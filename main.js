@@ -45,9 +45,9 @@ var productSchema = new Schema({
   name: String,
   description: String,
   image: String,
-  price: float
+  price: Number
 }, {collection: 'products'});
-var Product = mongoose.model('user', productSchema);
+var Product = mongoose.model('product', productSchema);
 
 // view engine
 app.set('views', __dirname + '/views');
