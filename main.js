@@ -256,6 +256,18 @@ app.post('/editAddress/:id', function(request, response) {
 	}
 })
 
+app.get('/deleteAddress/:id', function(request, response) {
+	User.update({email: request.session.email},
+			   {$pull: {addresses: {_id: mongoose.Types.ObjectId(request.params.id)}}}, {multi: false}, 
+			   function(error, numAffected) {
+			if(error || (numAffected.nModified != 1)) {
+				response.render('profile', {errorMessage: 'Unable to delete address', title: 'Account Profile', username: getUsername(request), addresses: addresses});
+			} else {
+				response.redirect('/profile');
+			}
+	})
+})
+
 // TODO: Shopping cart page
 
 
