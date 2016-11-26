@@ -2,9 +2,9 @@ extends layout
 block content
 	if(errorMessage)
 		div= errorMessage
-	h3 New Address
+	h3= formLabel
 	form(name="addressForm",
-			action="/newAddress",
+			action= action,
 			onsubmit="return validateForm()",
 		  method="post",
 		  class="form-vertical")
@@ -15,6 +15,7 @@ block content
 				   id="name",
 				   name="name",
 				   class="form-control",
+					value= name,
 					required)
 
 		div(class="clearfix hidden-sm-up")
@@ -25,6 +26,7 @@ block content
 				   id="line1",
 				   name="line1",
 				   class="form-control",
+					value= line1,
 					required)
 
 		div(class="clearfix hidden-sm-up")
@@ -34,7 +36,8 @@ block content
 			input(type="text",
 				   id="line2",
 				   name="line2",
-				   class="form-control")
+				   class="form-control",
+					value= line2)
 
 		div(class="clearfix hidden-sm-up" )
 
@@ -44,6 +47,7 @@ block content
 				   id="city",
 				   name="city",
 				   class="form-control",
+					value= city,
 					required)
 
 		div(class="clearfix hidden-sm-up")
@@ -53,7 +57,8 @@ block content
 			input(type="text",
 				   id="province",
 				   name="province",
-				   class="form-control")
+				   class="form-control",
+					value= province)
 
 		div(class="clearfix hidden-sm-up")
 
@@ -63,6 +68,7 @@ block content
 				   id="postcode",
 				   name="postcode",
 				   class="form-control",
+					value= postcode,
 					required)
 
 		div(class="clearfix hidden-sm-up")
@@ -73,9 +79,10 @@ block content
 				   id="country",
 				   name="country",
 				   class="form-control",
+					value= country,
 					required)
 
 		div(class="clearfix hidden-sm-up")
 
 		div(class="col-md-offset-1 col-md-1")
-			button(type="submit",class="btn btn-primary") Add
+			button(type="submit",class="btn btn-primary") Save

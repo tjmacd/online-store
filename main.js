@@ -170,7 +170,7 @@ app.get('/newAddress', function(request, response) {
         request.session.redirectTo = '/newAddress';
 		response.redirect('/login');
 	} else {
-		response.render('newAddress', {title: 'Add New Address', username: getUsername(request)});
+		response.render('addressForm', {title: 'Add New Address', username: getUsername(request), formLabel: "New Address", action: '/newAddress'});
 	}
 })
 
@@ -184,7 +184,7 @@ app.post('/newAddress', function(request, response) {
 	var country = request.body.country;
 	
 	if(name == "" || line1 == "" || city == "" || postcode == "" || country == ""){
-		response.render('newAddress', {errorMessage: 'Please fill all fields marked with *', title: 'Add New Address', username: getUsername(request)});
+		response.render('addressForm', {errorMessage: 'Please fill all fields marked with *', title: 'Add New Address', username: getUsername(request), formLabel: 'New Address', action: '/newAddress'});
 	} else {
 		User.find({email: request.session.email}).then(function(results) {
 			if(results.length > 0){
@@ -200,13 +200,59 @@ app.post('/newAddress', function(request, response) {
 					if(error || (numAffected.nModified != 1)) {
 						response.render('newAddress', {errorMessage: 'Unable to add address', title: 'Add New Address', username: getUsername(request)});
 					} else {
-						response.redirect('/profile')
+						response.redirect('/profile');
 					}
 				})
 			} else {
 				response.redirect('/login');
 			}
 		})
+	}
+})
+
+app.get('/editAddress/:id', function(request, response) {
+	var id = request.params.id;
+	User.find({"addresses._id": mongoose.Types.ObjectId(id)}, {_id: 0, 'addresses.$': 1}).then(function(results) {
+		if(results.length > 0){
+			var address = results[0].addresses[0];
+			response.render('addressForm', {title: 'Edit Address', username: getUsername(request), formLabel: 'Edit Address', action: '/editAddress/'+id, name: address.name, line1: address.line1, line2: address.line2, city: address.city, province: address.province, postcode: address.postcode, country: address.country, id: address._id});
+		} else {
+			response.redirect('/profile');
+		}
+	})
+})
+
+app.post('/editAddress/:id', function(request, response) {
+	var id = request.params.id;
+	var name = request.body.name;
+	var line1 = request.body.line1;
+	var line2 = request.body.line2;
+	var city = request.body.city;
+	var province = request.body.province;
+	var postcode = request.body.postcode;
+	var country = request.body.country;
+	
+	if(name == "" || line1 == "" || city == "" || postcode == "" || country == ""){
+		response.render('addressForm', {errorMessage: 'Please fill all fields marked with *', title: 'Edit Address', username: getUsername(request), formLabel: 'Edit Address', action: '/editAddress/'+id});
+		response.render('addressForm', {errorMessage: 'Please fill all fields marked with *', title: 'Edit Address', username: getUsername(request), formLabel: 'Edit Address', action: '/editAddress/'+id});
+	} else {
+		User.update({email: request.session.email, 
+					 "addresses._id": mongoose.Types.ObjectId(id)}, 
+					{$set: {"addresses.$.name": name,
+					   "addresses.$.line1": line1,
+					   "addresses.$.line2": line2,
+					   "addresses.$.city": city,
+					   "addresses.$.province": province,
+					   "addresses.$.postcode": postcode,
+					   "addresses.$.country": country}}, {multi: false}, 
+					function(error, numAffected) {
+			if(error || (numAffected.nModified != 1)) {
+				response.render('newAddress', {errorMessage: 'Unable to update address', title: 'Add New Address', username: getUsername(request)});
+			} else {
+				response.redirect('/profile');
+			}
+		})
+		
 	}
 })
 
