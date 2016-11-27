@@ -37,11 +37,11 @@ Online shopping application
 - Asks for username and password **(done)**
 - on submit may redirect to different pages **(done)**
 
-### Profile page
+### Profile page **(done)**
 - Displays address book - all addresses associated with user
   - Add new address **(done)**
-  - edit address
-  - delete address
+  - edit address **(done)**
+  - delete address **(done)**
 
 ### Create new account page **(done)**
 - Asks for username (checks availabity) **(done)**

@@ -41,7 +41,6 @@ var userSchema = new Schema({
 var User = mongoose.model('user', userSchema);
 
 var productSchema = new Schema({
-  sid: {type: String, unique: true, index: true},
   name: String,
   description: String,
   image: String,
@@ -76,7 +75,9 @@ app.post('/search', function(request, response) {
 
 
 // TODO: Product page
-
+app.get('/product/:id', function(request, response) {
+	response.render('product');
+})
 
 // Login
 app.get('/login', function(request, response) {

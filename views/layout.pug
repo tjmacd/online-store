@@ -68,4 +68,6 @@ html
 								a(href="/login") Log In
 
 		div(class="container")
+			if (errorMessage)
+				div= errorMessage
 			block content
