@@ -2,6 +2,15 @@
 
 Online shopping application
 
+## Setup Instructions
+- Requires node, and mongodb
+- Steps:
+	- Start mongo service
+	- run 'mongo createProducts.js'
+	- run 'node main.js'
+	- connect to 'localhost:3000/'
+- There are no users to start off with, but they can be added using 'register now' from the login page
+
 ## Outline
 ### Database
 - Stores table of products. Each product has:

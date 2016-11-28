@@ -1,0 +1,32 @@
+extends layout
+block content
+	h2 Confirm order
+	h3 Ship to:
+	div(class="panel panel-default")
+		strong= address.name
+		div= address.line1
+		div= address.line2
+		div #{address.city}, #{address.province} #{address.postcode}
+		div= address.country
+
+	h3 Charge to:
+	div(class="panel panel-default") Credit card ending in #{number}
+
+	h3 Price:
+	table(class="panel panel-default")
+		tr
+			td Price:
+			td= price
+		tr
+			td Shipping:
+			td= shipping
+		tr
+			td Tax:
+			td= tax
+		tr
+			td 
+				strong Total Price:
+			td
+				strong= totalPrice
+	
+	a(class="btn btn-primary", href="/orderSuccess") Confirm

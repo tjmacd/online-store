@@ -1,4 +1,5 @@
 function validateForm() {
+	
 	var password = document.forms["registerForm"]["password"].value;
 	var confirmPassword = document.forms["registerForm"]["confirmPassword"].value;
 	

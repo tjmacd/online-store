@@ -1,0 +1,37 @@
+extends layout
+block content
+	h3 Payment
+	form(class="form-vertical", id="creditCardInfo", method="post", action="/confirmOrder")
+		label(class="control-label col-md-1", for="name") Name on card:
+		div(class="col-md-4 form-group")
+			input(type="text", id="name", name="name", class="form-control",
+					required)
+
+		div(class="clearfix hidden-md-up")
+
+		label(class="control-label col-md-1", for="number") Card number:
+		div(class="col-md-4 form-group")
+			input(type="text", id="number", 
+					name="number", class="form-control", maxlength="16", size="16",
+					required)
+
+		div(class="clearfix hidden-md-up")
+		
+		label(class="control-label col-md-1", for="cvc") CVC:
+		div(class="col-md-4 form-group")
+			input(type="text", id="cvc", name="cvc", 
+					class="form-control", maxlength="3", size="3",
+					required)
+
+		div(class="clearfix hidden-md-up")
+
+		label(class="control-label col-md-1", for="expDate") Expiration date:
+		div(class="col-md-4 form-group")
+			select(id="month", name="month", required)
+			select(id="year", name="year", required)
+
+		div(class="clearfix hidden-md-up")
+		div(class="col-md-offset-1 col-md-1")
+			button(type="submit", class="btn btn-primary") Next
+
+		script(src="scripts/checkout.js")

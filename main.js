@@ -64,17 +64,21 @@ function getUsername(request) {
 	return username;
 }
 
-// TODO: main page
+// main page
 app.get('/', function(request, response) {
 	request.session.returnTo = '/';
-	response.render('main', {title: 'JunkMart', username: getUsername(request)});
+	Product.find({}).then(function(results) {
+		response.render('main', {title: 'JunkMart', 
+								 username: getUsername(request), 
+								 products: results});
+	})
 })
 
-// TODO: search
+// search
 app.post('/search', function(request, response) {
 	var query = request.body.query;
 	Product.find({$text: {$search: query}}).then(function(results) {
-		response.render('search', {title: 'Search results', 
+		response.render('main', {title: 'Search results', 
 								 username: getUsername(request), 
 								 numResults: results.length, 
 								 query: query,
@@ -112,10 +116,11 @@ app.post('/login', function(request, response) {
 // Logout
 app.get('/logout', function(request, response) {
 	request.session.username = '';
+	request.session.shipTo = '';
 	response.redirect('/');
 })
 
-// TODO: Register page
+// Register page
 app.get('/register', function(request, response) {
 	response.render('register', {title: 'Account Creation', username: getUsername(request)});
 })
@@ -177,7 +182,7 @@ app.get('/profile', function(request, response) {
 app.get('/newAddress', function(request, response) {
 	var username = getUsername(request);
 	if(!username || username === ''){
-        request.session.redirectTo = '/newAddress';
+        request.session.returnTo = '/newAddress';
 		response.redirect('/login');
 	} else {
 		response.render('addressForm', {title: 'Add New Address', username: getUsername(request), formLabel: "New Address", action: '/newAddress'});
@@ -210,7 +215,7 @@ app.post('/newAddress', function(request, response) {
 					if(error || (numAffected.nModified != 1)) {
 						response.render('newAddress', {errorMessage: 'Unable to add address', title: 'Add New Address', username: getUsername(request)});
 					} else {
-						response.redirect('/profile');
+						response.redirect(request.session.returnTo);
 					}
 				})
 			} else {
@@ -227,7 +232,7 @@ app.get('/editAddress/:id', function(request, response) {
 			var address = results[0].addresses[0];
 			response.render('addressForm', {title: 'Edit Address', username: getUsername(request), formLabel: 'Edit Address', action: '/editAddress/'+id, name: address.name, line1: address.line1, line2: address.line2, city: address.city, province: address.province, postcode: address.postcode, country: address.country, id: address._id});
 		} else {
-			response.redirect('/profile');
+			response.redirect(request.session.returnTo);
 		}
 	})
 })
@@ -281,12 +286,62 @@ app.get('/deleteAddress/:id', function(request, response) {
 // TODO: Shopping cart page
 app.get('/cart', function(request, response) {
 	var username = getUsername(request);
-	response.render('cart', {title: username+"'s Shopping Cart", username: username});
+	if(!username || username === ''){
+        request.session.returnTo = '/cart';
+		response.redirect('/login');
+	} else {
+		var username = getUsername(request);
+		response.render('cart', {title: username+"'s Shopping Cart", username: username});
+	}
 })
 
-// TODO: check out page
-app.get('/checkout', function(request, response) {
-	response.render('checkout', {title: 'Checkout', username: getUsername(request)});
+// check out page
+app.get('/checkoutShipping', function(request, response) {
+	var username = getUsername(request);
+	if(!username || username === ''){
+        request.session.returnTo = request.url;
+		response.redirect('/login');
+	} else {
+		
+		User.find({email: request.session.email}).then(function(results) {
+			var addresses = [];
+			if(results.length > 0) {
+				addresses = results[0].addresses;
+			}
+			response.render('checkoutShipping', {title: 'Checkout', username: getUsername(request), addresses: addresses});
+		});
+	}
+})
+
+app.get('/checkoutPayment', function(request, response) {
+	var username = getUsername(request);
+	if(!username || username === ''){
+        request.session.returnTo = request.url;
+		response.redirect('/login');
+	} else {
+		request.session.shipTo = request.query.shipTo;
+		User.find({email: request.session.email}).then(function(results) {
+			var addresses = [];
+			if(results.length > 0) {
+				addresses = results[0].addresses;
+			}
+			response.render('checkoutPayment', {title: 'Checkout', username: getUsername(request), addresses: addresses});
+		});
+	}
+})
+
+app.post('/confirmOrder', function(request, response) {
+	var id = request.session.shipTo;
+	User.find({"addresses._id": mongoose.Types.ObjectId(id)}, 
+			  {_id: 0, 'addresses.$': 1})
+		.then(function(results) {
+		if(results.length > 0){
+			var address = results[0].addresses[0];
+			response.render('confirmOrder', {title: 'Edit Address', username: getUsername(request), address: address});
+		} else {
+			response.redirect('/');
+		}
+	})
 })
 
 

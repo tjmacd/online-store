@@ -1,14 +1,16 @@
 extends layout
 block content
-	h3 Address book
+	h3 Checkout
+	h3 Select address to ship to
 	div(id='addressBook')
 	each address in addresses
-		form(class="address col-md-3", method="get")
+		form(class="address col-md-3", id="address", method="get")
 			strong= address.name
 			div= address.line1
 			div= address.line2
 			div #{address.city}, #{address.province} #{address.postcode}
 			div= address.country
+			a(class="btn btn-primary", type="submit", href="/checkoutPayment?shipTo="+address._id.toString()) Use this address
 			button(class="btn btn-default", type="submit", formaction="/editAddress/"+address._id.toString()) Edit
 			button(class="btn btn-default", type="submit", formaction="/deleteAddress/"+address._id.toString()) Delete
 			

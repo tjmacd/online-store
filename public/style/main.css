@@ -23,11 +23,19 @@
   border-radius: 10px;
 }
 
-#address {
+.address {
   border: solid 1px black;
   padding: 20px;
   border-radius: 10px;
   margin: 20px;
+}
+
+.address .btn-primary {
+  width: 100%;
+}
+
+.address .btn-default {
+  width: 50%;
 }
 
 .navbar {
