@@ -65,9 +65,9 @@ Online shopping application
 - button to check out
 
 ### check out page
-- asks for billing address
-- shipping address
-- credit card info
+- asks for billing address **(done)**
+- shipping address **(done)**
+- credit card info **(done)**
 - all above can be stored with user account as prefered options
 - after submit, asks customer to confirm all details including total price
 

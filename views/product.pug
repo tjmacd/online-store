@@ -1,9 +1,9 @@
 extends layout
 block content
-	h3= productName
-	div(id="productView")
-		img(src= productImage)
-		h4= productPrice
-		p= productDescription
-		a(href="/cart") Add to cart.
+	div(class="panel-heading")= product.name
+	div(class="panel-body imageFrame")
+		img(src="/image/"+product.image)
+	div(class="panel-body") Price: $#{product.price}
+	div(class="panel-body") Description: #{product.description}
+	
 	
