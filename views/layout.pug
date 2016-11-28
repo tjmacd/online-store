@@ -25,12 +25,13 @@ html
 						span(class="icon-bar")     
 
 					a(class="navbar-brand", href="/") JunkMart
-				form(class="navbar-form col-md-6", role="search", action="/search")
+				form(class="navbar-form col-md-6", role="search", action="/search", method="post")
 					div(class="input-group")
 						input(type="text", 
 								class="form-control", 
 								placeholder="Search", 
-								id="query")
+								id="query"
+								name="query")
 						div(class="input-group-btn")
 							button(class="btn btn-default",
 									type="submit")

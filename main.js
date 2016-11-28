@@ -36,15 +36,17 @@ var userSchema = new Schema({
 	hashedPassword: String,
 	firstname: String,
 	lastname: String,
-	addresses: [addressSchema]
+	addresses: [addressSchema],
+	cart: [String] //Product ids
 }, {collection: 'users'});
 var User = mongoose.model('user', userSchema);
 
 var productSchema = new Schema({
-  name: String,
-  description: String,
-  image: String,
-  price: Number
+ 	name: String,
+	category: String,
+ 	description: String,
+ 	image: String,
+ 	price: Number
 }, {collection: 'products'});
 var Product = mongoose.model('product', productSchema);
 
@@ -65,12 +67,19 @@ function getUsername(request) {
 // TODO: main page
 app.get('/', function(request, response) {
 	request.session.returnTo = '/';
-	response.render('layout', {title: 'JunkMart', username: getUsername(request)});
+	response.render('main', {title: 'JunkMart', username: getUsername(request)});
 })
 
 // TODO: search
 app.post('/search', function(request, response) {
-	
+	var query = request.body.query;
+	Product.find({$text: {$search: query}}).then(function(results) {
+		response.render('search', {title: 'Search results', 
+								 username: getUsername(request), 
+								 numResults: results.length, 
+								 query: query,
+								 products: results})
+	})
 })
 
 
@@ -270,10 +279,15 @@ app.get('/deleteAddress/:id', function(request, response) {
 })
 
 // TODO: Shopping cart page
-
+app.get('/cart', function(request, response) {
+	var username = getUsername(request);
+	response.render('cart', {title: username+"'s Shopping Cart", username: username});
+})
 
 // TODO: check out page
-
+app.get('/checkout', function(request, response) {
+	response.render('checkout', {title: 'Checkout', username: getUsername(request)});
+})
 
 
 app.set('port', process.env.PORT || 3000);

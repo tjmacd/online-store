@@ -17,7 +17,7 @@ Online shopping application
 - Logo **(done)**
 - Navigation bar **(done)**
 - Login/Logout button **(done)**
-- Search bar
+- Search bar **(done)**
 - Bottom banner thingy with legal and social media stuff
  
 ### Main page
