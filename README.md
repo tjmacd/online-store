@@ -12,15 +12,15 @@ Online shopping application
 - There are no users to start off with, but they can be added using 'register now' from the login page
 
 ## Outline
-### Database
+### Database **(done)**
 - Stores table of products. Each product has:
   - name
   - category
   - description
   - price
-  - keywords
+  - ~~keywords~~
   - image
-  - comments?
+  - ~~comments?~~
   
 ### All pages
 - Logo **(done)**
@@ -29,9 +29,9 @@ Online shopping application
 - Search bar **(done)**
 - Bottom banner thingy with legal and social media stuff
  
-### Main page
-- Displays various products showing image and price
-- Side nav bar for categories
+### Main page **(done)**
+- Displays various products showing image and price **(done)**
+- ~~Side nav bar for categories~~
 
 ### Product page
 - Shows large image of product
@@ -39,8 +39,8 @@ Online shopping application
 - Description
 - price
 - Add to cart button (links to login if not logged in then adds after logged in)
-- Review section displaying reviews and form
-  - must be logged in to leave review
+- ~~Review section displaying reviews and form~~
+  - ~~must be logged in to leave review~~
   
 ### Log in page **(done)**
 - Asks for username and password **(done)**
@@ -64,12 +64,12 @@ Online shopping application
 - tax
 - button to check out
 
-### check out page
+### check out page **(done)**
 - asks for billing address **(done)**
 - shipping address **(done)**
 - credit card info **(done)**
-- all above can be stored with user account as prefered options
-- after submit, asks customer to confirm all details including total price
+- all above can be stored with user account as prefered options **(done)**
+- after submit, asks customer to confirm all details including total price **(done)**
 
 ### formatting
 - should display well on both desktop and mobile

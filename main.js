@@ -22,6 +22,15 @@ app.use(session({
 
 mongoose.connect('localhost:27017/project');
 var Schema = mongoose.Schema;
+var productSchema = new Schema({
+ 	name: String,
+	category: String,
+ 	description: String,
+ 	image: String,
+ 	price: Number
+}, {collection: 'products'});
+var Product = mongoose.model('product', productSchema);
+
 var addressSchema = new Schema({
 	name: String,
 	line1: String,
@@ -31,24 +40,17 @@ var addressSchema = new Schema({
 	postcode: String,
 	country: String
 })
+
 var userSchema = new Schema({
 	email: {type: String, unique: true, index: true},
 	hashedPassword: String,
 	firstname: String,
 	lastname: String,
 	addresses: [addressSchema],
-	cart: [String] //Product ids
+	cart: [productSchema] //Product ids
 }, {collection: 'users'});
 var User = mongoose.model('user', userSchema);
 
-var productSchema = new Schema({
- 	name: String,
-	category: String,
- 	description: String,
- 	image: String,
- 	price: Number
-}, {collection: 'products'});
-var Product = mongoose.model('product', productSchema);
 
 // view engine
 app.set('views', __dirname + '/views');
@@ -331,17 +333,52 @@ app.get('/checkoutPayment', function(request, response) {
 })
 
 app.post('/confirmOrder', function(request, response) {
-	var id = request.session.shipTo;
-	User.find({"addresses._id": mongoose.Types.ObjectId(id)}, 
-			  {_id: 0, 'addresses.$': 1})
-		.then(function(results) {
-		if(results.length > 0){
-			var address = results[0].addresses[0];
-			response.render('confirmOrder', {title: 'Edit Address', username: getUsername(request), address: address});
-		} else {
-			response.redirect('/');
-		}
-	})
+	var username = getUsername(request);
+	if(!username || username === ''){
+        request.session.returnTo = request.url;
+		response.redirect('/login');
+	} else {
+		var id = request.session.shipTo;
+		User.find({"addresses._id": mongoose.Types.ObjectId(id)}, 
+				  {_id: 0, 'addresses.$': 1})
+			.then(function(results) {
+			if(results.length > 0){
+				var address = results[0].addresses[0];
+				var creditCard = request.body.number.substr(-4, 4);
+
+				User.find({email: request.session.email})
+					.then(function(results) {
+					if(results.length > 0){
+						var cart = results[0].cart;
+						var price = 0;
+						for(var i=0; i<cart.length; i++){
+							price += cart[i].price;
+						}
+						var shipping = 6.99;
+						var tax = price * 0.13;
+						var total = price + shipping + tax;
+						response.render('confirmOrder', 
+										{title: 'Edit Address', 
+										 username: getUsername(request), 
+										 address: address, 
+										 number: creditCard, 
+										 price: price, 
+										 shipping: shipping,
+										 tax: tax, 
+										 totalPrice: total});
+					} else {
+						response.redirect('/');
+					}
+				})
+			} else {
+				response.redirect('/');
+			}
+		})
+	}
+})
+
+app.get('/orderSuccess', function(request, response) {
+	response.render('orderSuccess', {title: 'Order Complete', username: getUsername(request)});
 })
 
 
