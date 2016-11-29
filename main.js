@@ -334,7 +334,7 @@ app.get('/addCart/:id', function(request, response) {
 							   image: mongoose.Types.ObjectId(id).image,
 							   price: mongoose.Types.ObjectId(id).price
 							   });
-				User.update({email: request.session.email}, {addresses: addresses}, {multi: false}, function(error, numAffected) {
+				User.update({email: request.session.email}, {products: products}, {multi: false}, function(error, numAffected) {
 					if(error || (numAffected.nModified != 1)) {
 						response.render('/main', {errorMessage: 'Unable to add product', title: 'Main', username: getUsername(request)});
 					} else {
@@ -342,8 +342,12 @@ app.get('/addCart/:id', function(request, response) {
 					}
 				})
         
-	}
+	       }
+        })
+    }
 })
+                                       
+
 
 // check out page
 app.get('/checkoutShipping', function(request, response) {
