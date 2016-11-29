@@ -91,7 +91,7 @@ app.post('/search', function(request, response) {
 
 // TODO: Product page
 app.get('/product/:id', function(request, response) {
-	response.render('product');
+	response.render('product'. {title: 'Product', username: getUsername(request)});
 })
 
 // Login
