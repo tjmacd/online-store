@@ -91,7 +91,7 @@ app.post('/search', function(request, response) {
 
 // TODO: Product page
 app.get('/product/:id', function(request, response) {
-	response.render('product'. {title: 'Product', username: getUsername(request)});
+	response.render('product', {title: 'Product', username: getUsername(request)});
 })
 
 // Login
@@ -108,7 +108,11 @@ app.post('/login', function(request, response) {
 			var session = request.session;
 			session.username = results[0].firstname;
 			session.email = results[0].email;
-			response.redirect(request.session.returnTo);
+			if(typeof request.session.returnTo !== "undefined"){
+				response.redirect(request.session.returnTo);
+			} else {
+				response.redirect('/');
+			}
 		} else {
 			response.render('login', {errorMessage: 'Username or password incorrect', username: getUsername(request)});
 		}
@@ -285,15 +289,24 @@ app.get('/deleteAddress/:id', function(request, response) {
 	})
 })
 
-// TODO: Shopping cart page
+// Shopping cart page
 app.get('/cart', function(request, response) {
 	var username = getUsername(request);
 	if(!username || username === ''){
         request.session.returnTo = '/cart';
 		response.redirect('/login');
 	} else {
-		var username = getUsername(request);
-		response.render('cart', {title: username+"'s Shopping Cart", username: username});
+		User.find({email: request.session.email})
+			.then(function(results) {
+			if(results.length > 0){
+				var cart = results[0].cart;
+				response.render('cart', {title: username+"'s Shopping Cart", username: username, products: cart});
+			} else {
+				response.redirect('/login');
+			}
+			
+		})
+		
 	}
 })
 
@@ -377,7 +390,7 @@ app.post('/confirmOrder', function(request, response) {
 	}
 })
 
-app.get('/orderSuccess', function(request, response) {
+app.post('/orderSuccess', function(request, response) {
 	var username = getUsername(request);
 	if(!username || username === ''){
         request.session.returnTo = request.url;

@@ -23,11 +23,11 @@ block content
 				td= shipping
 			tr
 				td Tax:
-				td= tax
+				td= tax.toFixed(2)
 			tr
 				td 
 					strong Total Price:
 				td
-					strong= totalPrice
+					strong= totalPrice.toFixed(2)
 	
 		button(class="btn btn-primary", type="submit") Confirm

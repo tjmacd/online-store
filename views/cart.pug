@@ -1,0 +1,13 @@
+extends layout
+block content
+	h3 #{username}'s Shopping Cart
+	if(products)
+		each product in products
+			div(class="thumbnail")
+				div(class="panel-heading")= product.name
+				div(class="panel-body imageFrame")
+					img(src="/image/"+product.image)
+				div(class="panel-body") Price: $#{product.price}
+		a(class="btn btn-primary", href="/checkoutShipping") Check Out
+	else
+		div(class="panel panel-default") Your shopping cart is empty.

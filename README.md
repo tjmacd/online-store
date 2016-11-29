@@ -56,13 +56,13 @@ Online shopping application
 - Asks for username (checks availabity) **(done)**
 - Asks for password (2nd box to confirm password) **(done)**
 
-### shopping cart page
-- must be logged in to view
-- Shows all items in users cart (associated with account)
-  - small image, name and price
+### shopping cart page **(done)**
+- must be logged in to view **(done)**
+- Shows all items in users cart (associated with account) **(done)**
+  - small image, name and price **(done)**
 - Total cost
 - tax
-- button to check out
+- button to check out **(done)**
 
 ### check out page **(done)**
 - asks for billing address **(done)**
