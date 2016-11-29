@@ -5,7 +5,7 @@ block content
 			div(class="panel-body") #{numResults} results for "#{query}"
 	each product in products
 		a(href="/product/"+product._id.toString())
-			div(class="thumbnail col-md-3")
+			div(class="panel panel-default col-md-3")
 				div(class="panel-heading")= product.name
 				div(class="panel-body imageFrame")
 					img(src="/image/"+product.image)

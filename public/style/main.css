@@ -1,13 +1,15 @@
-.thumbnail {
+.panel {
+	padding: 0;
 	margin: 0 10px 10px 0;
 }
 
 .imageFrame {
 	height: 150px;
 	padding: 0;
+	margin: 0;
 }
 
-.thumbnail img {
+.panel img {
 	max-height: 150px;
 	max-width: 100%;
 	margin: 0;

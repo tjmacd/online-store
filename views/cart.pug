@@ -1,9 +1,9 @@
 extends layout
 block content
 	h3 #{username}'s Shopping Cart
-	if(products)
+	if(products.length)
 		each product in products
-			div(class="thumbnail")
+			div(class="panel panel-info")
 				div(class="panel-heading")= product.name
 				div(class="panel-body imageFrame")
 					img(src="/image/"+product.image)
