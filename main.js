@@ -92,9 +92,9 @@ app.post('/search', function(request, response) {
 // TODO: Product page
 app.get('/product/:id', function(request, response) {
 	var id = request.params.id;
-	User.find({"Product._id": mongoose.Types.ObjectId(id)}).then(function(results) {
+	Product.find({"_id": mongoose.Types.ObjectId(id)}).then(function(results) {
 		if(results.length > 0){
-			var product = results[0].products[0];
+			var product = results[0];
 			response.render('product', {title: 'Product', username: getUsername(request), action: '/product/'+id, name: product.name, image: product.image, price: product.price, description: product.description});
 		} else {
 			response.redirect(request.session.returnTo);
