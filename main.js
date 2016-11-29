@@ -121,7 +121,7 @@ app.get('/addCart/:id', function(request, response) {
 							if(error || (numAffected.nModified != 1)) {
 								response.render('/main', {errorMessage: 'Unable to add product', title: 'Main', username: getUsername(request)});
 							} else {
-								response.render('cart', {title: username+"'s Shopping Cart", username: username, products: cart});
+								response.redirect('/cart');
 							}
 						})
 					} else {
@@ -350,7 +350,6 @@ app.get('/cart', function(request, response) {
 		
 	}
 })
-
 
 
 // check out page
