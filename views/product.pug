@@ -1,11 +1,13 @@
 extends layout
 block content
 
-	div(class="thumbnail col-md-3")
-	div(class="panel-heading")= name
-	div(class="panel-body imageFrame")
-		img(src="/image/"+image)
-	div(class="panel-body") Price: $#{price}
-	div(class="panel-body") Description: #{description}
+    div(class="thumbnail col-md-3")
+    div(class="panel-heading")= name
+	   div(class="panel-body imageFrame")
+        img(src="/image/"+image)
+	   div(class="panel-body") Price: $#{price}
+	   div(class="panel-body") Description: #{description}
+    
+    button(class="btn btn-default", type="submit", formaction="/cart/"+product._id.toString()) Add to cart
 	
 
