@@ -3,6 +3,11 @@
 	margin: 0 10px 10px 0;
 }
 
+.product img {
+	height: 400px;
+	max-width: 400px;
+}
+
 .imageFrame {
 	height: 150px;
 	padding: 0;
