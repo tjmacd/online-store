@@ -378,7 +378,17 @@ app.post('/confirmOrder', function(request, response) {
 })
 
 app.get('/orderSuccess', function(request, response) {
-	response.render('orderSuccess', {title: 'Order Complete', username: getUsername(request)});
+	var username = getUsername(request);
+	if(!username || username === ''){
+        request.session.returnTo = request.url;
+		response.redirect('/login');
+	} else {
+		User.update({email: request.session.email},
+			   {cart: []}, {multi: false}, 
+			   function(error, numAffected) {
+			response.render('orderSuccess', {title: 'Order Complete', username: getUsername(request)});
+		})	
+	}
 })
 
 
