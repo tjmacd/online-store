@@ -1,10 +1,11 @@
 extends layout
 block content
 
-    each product in products
-        div(class="thumbnail col-md-3")
-        div(class="panel-heading")= product.name
-        div(class="panel-body imageFrame")
-            img(src="/image/"+product.image)
-        div(class="panel-body") Price: $#{product.price}
-        div(class="panel-body") Description: #{product.description}
+	div(class="thumbnail col-md-3")
+	div(class="panel-heading")= product.name
+	div(class="panel-body imageFrame")
+		img(src="/image/"+product.image)
+	div(class="panel-body") Price: $#{product.price}
+	div(class="panel-body") Description: #{product.description}
+	
+
