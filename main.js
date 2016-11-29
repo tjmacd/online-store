@@ -318,6 +318,33 @@ app.get('/cart', function(request, response) {
 	}
 })
 
+app.get('/addCart/:id', function(request, response) {
+	var username = getUsername(request);
+    var id = request.params.id;
+	if(!username || username === ''){
+        request.session.returnTo = '/addCart';
+		response.redirect('/login');
+	} else {
+		User.find({email: request.session.email}).then(function(results) {
+			if(results.length > 0){
+				var products = results[0].products;
+				products.push({name:  mongoose.Types.ObjectId(id).name,
+                               category: mongoose.Types.ObjectId(id).category,
+                               description: mongoose.Types.ObjectId(id).description,
+							   image: mongoose.Types.ObjectId(id).image,
+							   price: mongoose.Types.ObjectId(id).price
+							   });
+				User.update({email: request.session.email}, {addresses: addresses}, {multi: false}, function(error, numAffected) {
+					if(error || (numAffected.nModified != 1)) {
+						response.render('/main', {errorMessage: 'Unable to add product', title: 'Main', username: getUsername(request)});
+					} else {
+						response.render('cart', {title: username+"'s Shopping Cart", username: username, products: cart});
+					}
+				})
+        
+	}
+})
+
 // check out page
 app.get('/checkoutShipping', function(request, response) {
 	var username = getUsername(request);
